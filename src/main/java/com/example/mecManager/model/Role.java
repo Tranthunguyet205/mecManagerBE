@@ -31,11 +31,13 @@ public class Role {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "created_by")
-    private Long createdUserId;
+    @ManyToOne
+    @JoinColumn(name = "create_by", nullable = false)
+    private User userCreateBy;
 
-    @Column(name = "updated_by")
-    private Long updatedUserId;
+    @ManyToOne
+    @JoinColumn(name = "update_by")
+    private User userUpdateBy;
 
 
 }

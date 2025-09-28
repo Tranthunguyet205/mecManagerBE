@@ -27,14 +27,9 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
 //    @Enumerated(EnumType.STRING)
 //    private Role role;
 
-    @Column(nullable = false, name = "dob")
-    private Date dob;//ngay sinh
 
     @Column(nullable = false, name="gender")
     private Integer gender;
@@ -57,8 +52,9 @@ public class User {
     private Long createdUserId;
 
 
-//    @Column(name = "profile_picture_url")
-//    private String profilePictureUrl;
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
     @Column(name = "isActive", nullable = false)
     private Integer isActive;
 
