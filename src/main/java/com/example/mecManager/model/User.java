@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collections;
 import java.util.Date;
@@ -21,21 +20,21 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(nullable = false, unique = true, name = "username")
+    private String username;
+
     @Column(nullable = false, unique = true, length = 50, name = "full_name")
     private String fullName;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
-
-
     @Column(nullable = false, name="gender")
     private Integer gender;
 
-    @Column(nullable = false, name = "role_id")
-    private Integer roleId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "role_id")
+    private Role role;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,17 +60,17 @@ public class User {
 
 
 
-//    public static UserPrincipal build(User user) {
-//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().name());
-//
-//        return new UserPrincipal(
-//                user.getId(),
-//                user.getUsername(),
-//                user.getPasswordHash(), // chú ý: đúng field password
-//                Collections.singletonList(authority),
-//                Boolean.TRUE.equals(user.getIsActive())
-//        );
-//    }
+    public static UserPrincipal build(User user) {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
+
+        return new UserPrincipal(
+                user.getId(),
+                user.getUsername(),
+                user.getPasswordHash(), // chú ý: đúng field password
+                Collections.singletonList(authority),
+                Boolean.TRUE.equals(user.getIsActive())
+        );
+    }
 
 
 }
